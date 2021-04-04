@@ -1,5 +1,5 @@
 <template>
-  <div class="login">
+  <div class="login" @click="onLoginBody">
     <!-- 背景视频 -->
     <div class="video-wrapper">
       <video
@@ -15,17 +15,38 @@
       <el-tooltip content="系统正在维护中，暂时无法注册" placement="bottom">
         <el-button class="register">注册</el-button>
       </el-tooltip>
-      <el-button type="danger">登录</el-button>
+      <el-button type="danger" @click.stop="onLoginClick">登录</el-button>
     </div>
     <!-- 登录组件 -->
-    <login-form class="login-form" />
+    <login-form
+      class="login-form"
+      v-show="isLoginFormShow"
+      @click.native.stop="onLoginFormClick"
+    />
   </div>
 </template>
 <script>
 import LoginForm from '../login/LoginForm'
 export default {
+  data () {
+    return {
+      isLoginFormShow: false
+    }
+  },
+  mounted () {},
   components: {
     LoginForm
+  },
+  methods: {
+    onLoginClick () {
+      this.isLoginFormShow = !this.isLoginFormShow
+    },
+    onLoginBody () {
+      this.isLoginFormShow = false
+    },
+    onLoginFormClick () {
+      this.isLoginFormShow = true
+    }
   }
 }
 </script>

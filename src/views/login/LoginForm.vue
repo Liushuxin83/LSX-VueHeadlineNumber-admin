@@ -26,13 +26,17 @@
         >我已经阅读并同意用户协议和隐私条款</el-checkbox
       >
     </div>
-    <el-button type="primary" class="loginbtn" @click="onLoginBtn"
+    <el-button
+      type="primary"
+      class="loginbtn"
+      @click="onLoginBtn"
+      :loading="isLoading"
       >登录</el-button
     >
   </div>
 </template>
 <script>
-import request from '@/network/request.js'
+import { getLoginData } from '../../api/login/login'
 export default {
   data () {
     // 验证手机号的规则
@@ -57,26 +61,31 @@ export default {
           { validator: checkMobile, trigger: 'blur' }
         ],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
-      }
+      },
+      // 控制登录按钮是否加载
+      isLoading: false
     }
   },
   methods: {
     onLoginBtn () {
+      const userInfo = {
+        mobile: this.userInfo.phone,
+        code: this.userInfo.password
+      }
       this.$refs.userInfoRef.validate(async valid => {
         if (!valid) return
-        const { data: res } = await request({
-          method: 'POST',
-          url: '/mp/v1_0/authorizations',
-          data: { mobile: this.userInfo.phone, code: this.userInfo.password }
-        })
         if (this.checked === false) {
           return this.$message({ message: '请勾选用户协议！', type: 'warning' })
         }
+        this.isLoading = true
+        const { data: res } = await getLoginData(userInfo)
         if (res.message !== 'OK') {
           return this.$message.error('登录失败，手机号或密码错误')
         }
         this.$message({ message: '登录成功！', type: 'success' })
-        console.log(res)
+        this.isLoading = false
+        this.$router.push('/home')
+        this.$store.commit('saveUserLoginInfo', res.data)
       })
     }
   }
@@ -87,6 +96,8 @@ export default {
   width: 420px;
   height: 430px;
   background: #fff;
+  border-radius: 10px;
+  box-shadow: 3px 0px 37px #eee;
   .el-form {
     margin-top: 100px;
   }
