@@ -13,10 +13,6 @@ const Content = () =>
 	import('../views/content/Content.vue')
 const routes = [
 	{
-		path: '*',
-		redirect: '/login'
-	},
-	{
 		path: '/login',
 		component: Login
 	},
