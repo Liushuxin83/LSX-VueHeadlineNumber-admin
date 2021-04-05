@@ -84,8 +84,8 @@ export default {
         }
         this.$message({ message: '登录成功！', type: 'success' })
         this.isLoading = false
-        this.$router.push('/home')
         this.$store.commit('saveUserLoginInfo', res.data)
+        this.$router.push('/home')
       })
     }
   }

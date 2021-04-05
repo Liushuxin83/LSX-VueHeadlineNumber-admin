@@ -7,13 +7,15 @@
       text-color="#fff"
       active-text-color="#ffd04b"
       :router="true"
+      :collapse="collapse"
+			:collapse-transition="false"
     >
       <!-- :collapse="isCollapse" -->
       <el-menu-item index="/home/welcome">
         <i class="el-icon-s-home"></i>
         <span slot="title">首页</span>
       </el-menu-item>
-      <el-menu-item index="/home/article">
+      <el-menu-item index="/home/content">
         <i class="iconfont iconneirongguanli"></i>
         <span slot="title">内容管理</span>
       </el-menu-item>
@@ -42,7 +44,12 @@
 </template>
 <script>
 export default {
-  name: 'HomeMenu'
+  name: 'HomeMenu',
+  props: {
+    collapse: {
+      type: Boolean
+    }
+  }
 }
 </script>
 <style lang="less" scoped>

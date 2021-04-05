@@ -1,13 +1,19 @@
 <template>
   <div>
     <el-container class="layout-container">
-      <el-aside width="200px">
-        <home-menu />
+      <el-aside width="auto">
+        <home-menu :collapse="isCollapse" />
       </el-aside>
       <el-container>
         <el-header>
           <div class="head">
-            <i class="el-icon-s-fold" @click="onCollapseClick"></i>
+            <i
+              :class="{
+                'el-icon-s-fold': isCollapse,
+                'el-icon-s-unfold': !isCollapse
+              }"
+              @click="onCollapseClick"
+            ></i>
             <span>Vue头条号管理系统</span>
           </div>
           <!-- 头部头像下拉菜单 -->
@@ -21,7 +27,9 @@
               </div>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>个人设置</el-dropdown-item>
-                <el-dropdown-item>退出登录</el-dropdown-item>
+                <el-dropdown-item @click.native="onQuitLoginClick"
+                  >退出登录</el-dropdown-item
+                >
               </el-dropdown-menu>
             </el-dropdown>
           </div>
@@ -38,12 +46,21 @@ import HomeMenu from '../home/HomeMenu'
 import { mapState } from 'vuex'
 export default {
   name: 'HomeIndex',
+  data () {
+    return {
+      isCollapse: false
+    }
+  },
   components: {
     HomeMenu
   },
   methods: {
     onCollapseClick () {
-      console.log(111)
+      this.isCollapse = !this.isCollapse
+    },
+    onQuitLoginClick () {
+      this.$store.state.afterUserLoginInfo = {}
+      this.$router.push('/login')
     }
   },
   computed: {
