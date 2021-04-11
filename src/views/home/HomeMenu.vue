@@ -1,14 +1,14 @@
 <template>
   <div class="menu">
     <el-menu
-      default-active="/home/welcome"
+      :default-active="active"
       class="el-menu-vertical-demo"
       background-color="#545c64"
       text-color="#fff"
       active-text-color="#ffd04b"
       :router="true"
       :collapse="collapse"
-			:collapse-transition="false"
+      :collapse-transition="false"
     >
       <!-- :collapse="isCollapse" -->
       <el-menu-item index="/home/welcome">
@@ -23,7 +23,7 @@
         <i class="iconfont iconimage"></i>
         <span slot="title">素材管理</span>
       </el-menu-item>
-      <el-menu-item index="2">
+      <el-menu-item index="/home/publisharticles">
         <i class="iconfont iconfabu"></i>
         <span slot="title">发布文章</span>
       </el-menu-item>
@@ -48,6 +48,20 @@ export default {
   props: {
     collapse: {
       type: Boolean
+    }
+  },
+  data () {
+    return {
+      active: '/home/welcome'
+    }
+  },
+  watch: {
+    // 由于每次点击浏览器的回退按钮。default-active都不会发生改变，解决方法，监听路由的变化，动态的为default-active赋值
+    $route: {
+      handler (to) {
+        console.log(to.fullPath)
+        this.active = to.fullPath
+      }
     }
   }
 }

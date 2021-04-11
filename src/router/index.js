@@ -11,6 +11,8 @@ const Welcome = () =>
 	import('../views/welcome/Welcome.vue')
 const Content = () =>
 	import('../views/content/Content.vue')
+const PublishArticles = () =>
+	import('../views/publishArticles/PublishArticles.vue')
 const routes = [
 	{
 		path: '/login',
@@ -28,6 +30,10 @@ const routes = [
 			{
 				path: 'content',
 				component: Content
+			},
+			{
+				path: 'publisharticles',
+				component: PublishArticles
 			}
 		]
 	}]

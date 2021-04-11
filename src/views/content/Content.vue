@@ -48,13 +48,20 @@
           </el-date-picker>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="onScreenClick">筛选</el-button>
+          <el-button type="primary" @click="onScreenClick" :disabled="loading"
+            >筛选</el-button
+          >
         </el-form-item>
       </el-form>
     </el-card>
     <el-card class="table-card">
       <!-- 表格区域 -->
-      <el-table :data="articlesTableData" style="width: 100%" size="mini">
+      <el-table
+        :data="articlesTableData"
+        style="width: 100%"
+        size="mini"
+        v-loading="loading"
+      >
         <el-table-column label="封面" width="180">
           <template v-slot="scope">
             <div v-if="scope.row.cover.images">
@@ -102,6 +109,7 @@
         :page-size="pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
+        :disabled="isPaginationDisabled"
       >
       </el-pagination>
     </el-card>
@@ -122,19 +130,23 @@ export default {
       },
       articlesTableData: [],
       total: 0,
-      pageNum: 2,
+      pageNum: 1,
       pageSize: 10,
       articlesStatus: [
         { text: '草稿', status: 0, type: 'info' },
         { text: '待审核', status: 1, type: '' },
         { text: '审核通过', status: 2, type: 'success' },
         { text: '审核失败', status: 3, type: 'warning' },
-        { text: '已删除', status: 5, type: 'danger' }
+        { text: '已删除', status: 4, type: 'danger' }
       ],
       // 文章频度数据
       articleChannels: [],
       begin_pubdate: '',
-      end_pubdate: ''
+      end_pubdate: '',
+      // table是否 loading
+      loading: false,
+      // 控制分页是否被禁用
+      isPaginationDisabled: false
     }
   },
   created () {
@@ -149,6 +161,8 @@ export default {
     },
     // 获取文章数据
     async getArticlesData () {
+      this.loading = true
+      this.isPaginationDisabled = true
       if (this.form.date) {
         let begin = new Date(this.form.date[0])
         let end = new Date(this.form.date[1])
@@ -180,6 +194,8 @@ export default {
       this.end_pubdate = ''
       this.articlesTableData = res.data.data.results
       this.total = res.data.data.total_count
+      this.loading = false
+      this.isPaginationDisabled = false
     },
     // 获取文章频度
     async getArticlesChannel () {
