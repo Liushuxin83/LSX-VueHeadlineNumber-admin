@@ -21,9 +21,9 @@
             <el-dropdown>
               <div class="head-right">
                 <div class="touxiang">
-                  <img :src="afterUserLoginInfo.photo" />
+                  <img :src="userInfo.photo" />
                 </div>
-                <span>{{ afterUserLoginInfo.name }}</span>
+                <span>{{ userInfo.name }}</span>
               </div>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item>个人设置</el-dropdown-item>
@@ -44,12 +44,21 @@
 <script>
 import HomeMenu from '../home/HomeMenu'
 import { mapState } from 'vuex'
+import { getUserInfo } from '../../api/user'
+import bus from '../../utils/global-bus'
 export default {
   name: 'HomeIndex',
   data () {
     return {
-      isCollapse: false
+      isCollapse: false,
+      userInfo: null
     }
+  },
+  created () {
+    this.getUserInfo()
+    bus.$on('updateUserPhoto', data => {
+      this.userInfo.photo = data
+    })
   },
   components: {
     HomeMenu
@@ -61,6 +70,13 @@ export default {
     onQuitLoginClick () {
       this.$store.state.afterUserLoginInfo = {}
       this.$router.push('/login')
+    },
+    // 获取用户信息
+    getUserInfo () {
+      getUserInfo().then(res => {
+        // console.log(res)
+        this.userInfo = res.data.data
+      })
     }
   },
   computed: {

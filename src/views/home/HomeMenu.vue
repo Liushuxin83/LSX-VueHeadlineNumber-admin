@@ -35,7 +35,7 @@
         <i class="iconfont iconfensi"></i>
         <span slot="title">粉丝管理</span>
       </el-menu-item>
-      <el-menu-item index="5">
+      <el-menu-item index="/home/personalsettings">
         <i class="iconfont iconneirongguanli"></i>
         <span slot="title">个人设置</span>
       </el-menu-item>
