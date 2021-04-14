@@ -31,7 +31,7 @@
         </el-form-item>
         <template v-if="publishArticlesForm.cover.type > 0">
           <div>
-						<!-- 如果当给子组件提供的数据既要使用又要修改，这个时候可以在组件上使用v-model -->
+            <!-- 如果当给子组件提供的数据既要使用又要修改，这个时候可以在组件上使用v-model -->
             <upload-cover
               v-for="(item, index) in publishArticlesForm.cover.type"
               :key="item"
