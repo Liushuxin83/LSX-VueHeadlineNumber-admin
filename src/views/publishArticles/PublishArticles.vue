@@ -29,6 +29,16 @@
             <el-radio :label="-1">自动</el-radio>
           </el-radio-group>
         </el-form-item>
+        <template v-if="publishArticlesForm.cover.type > 0">
+          <div>
+						<!-- 如果当给子组件提供的数据既要使用又要修改，这个时候可以在组件上使用v-model -->
+            <upload-cover
+              v-for="(item, index) in publishArticlesForm.cover.type"
+              :key="item"
+              @coverImage="coverImage(index, $event)"
+            />
+          </div>
+        </template>
         <el-form-item label="频道：">
           <el-select
             v-model="publishArticlesForm.channel_id"
@@ -55,6 +65,7 @@
 <script>
 import { getArticlesChannel } from '../../api/article'
 import { publishArticles } from '../../api/publishArticles'
+import UploadCover from '../publishArticles/UploadCover'
 export default {
   name: 'PubishArticles',
   data () {
@@ -75,6 +86,9 @@ export default {
   created () {
     this.getArticlesChannel()
   },
+  components: {
+    UploadCover
+  },
   methods: {
     async getArticlesChannel () {
       const { data } = await getArticlesChannel()
@@ -89,7 +103,22 @@ export default {
         message: '恭喜你，该操作成功了！',
         type: 'success'
       })
+    },
+    // 接收子组件传过来的  image的url
+    coverImage (index, url) {
+      console.log(index, url)
+      this.publishArticlesForm.cover.images[index] = url
     }
+  },
+  watch: {
+    // 'publishArticlesForm.cover.type': {
+    //   handler () {
+    //     if (
+    //       this.publishArticlesForm.cover.type === 0 ||
+    //       this.publishArticlesForm.cover.type === -1
+    //     ) { this.publishArticlesForm.cover.images = [] }
+    //   }
+    // }
   }
 }
 </script>
