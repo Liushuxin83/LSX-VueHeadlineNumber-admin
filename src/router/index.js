@@ -11,6 +11,8 @@ const PublishArticles = () =>
   import('../views/publishArticles/PublishArticles.vue')
 const MaterilaManage = () =>
   import('../views/materialManage/MaterialManage.vue')
+const PersonalSettings = () =>
+  import('../views/personalSettings/PersonalSettings.vue')
 const routes = [
   {
     path: '/login',
@@ -36,6 +38,10 @@ const routes = [
       {
         path: 'materialmanage',
         component: MaterilaManage
+      },
+      {
+        path: 'personalsettings',
+        component: PersonalSettings
       }
     ]
   }
