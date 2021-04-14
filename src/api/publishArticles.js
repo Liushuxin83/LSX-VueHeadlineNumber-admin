@@ -9,3 +9,13 @@ export function publishArticles (data, draft = false) {
     data
   })
 }
+<<<<<<< HEAD
+=======
+export function uploadCover (data) {
+  return request({
+    method: 'POST',
+    url: '/mp/v1_0/user/images',
+    data
+  })
+}
+>>>>>>> publish_articles
