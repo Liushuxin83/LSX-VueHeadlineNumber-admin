@@ -9,8 +9,6 @@ export function publishArticles (data, draft = false) {
     data
   })
 }
-<<<<<<< HEAD
-=======
 export function uploadCover (data) {
   return request({
     method: 'POST',
@@ -18,4 +16,3 @@ export function uploadCover (data) {
     data
   })
 }
->>>>>>> publish_articles
