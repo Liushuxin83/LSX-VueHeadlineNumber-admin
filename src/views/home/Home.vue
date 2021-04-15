@@ -59,6 +59,9 @@ export default {
     bus.$on('updateUserPhoto', data => {
       this.userInfo.photo = data
     })
+    bus.$on('updateUserName', data => {
+      this.userInfo.name = data
+    })
   },
   components: {
     HomeMenu

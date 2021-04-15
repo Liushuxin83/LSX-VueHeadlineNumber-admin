@@ -7,11 +7,19 @@
     <el-dialog
       title="提示"
       :visible.sync="uploadcoverDialogVisible"
-      width="500px"
+      width="600px"
       append-to-body
     >
       <el-tabs v-model="uploadCoverActiveName" type="card">
-        <el-tab-pane label="素材库" name="first">素材库内容</el-tab-pane>
+        <el-tab-pane label="素材库" name="first">
+          素材库内容
+          <material-list
+            :isAddMaterialShow="false"
+            :isIconShow="false"
+            ref="materialListRef"
+            :isShowSelected="true"
+          />
+        </el-tab-pane>
         <el-tab-pane label="上传图片" name="second">
           <input type="file" @change="onFileChange" ref="file" />
           <img ref="previewImg" width="150px" />
@@ -28,6 +36,7 @@
 </template>
 <script>
 import { uploadCover } from '../../api/publishArticles'
+import MaterialList from '@/components/MaterialList'
 export default {
   name: 'UploadCover',
   data () {
@@ -37,6 +46,9 @@ export default {
       uploadCoverActiveName: 'first',
       isTextShow: true
     }
+  },
+  components: {
+    MaterialList
   },
   methods: {
     onUploadCover () {
@@ -52,7 +64,7 @@ export default {
       // this.$refs.file.value = ''
     },
     onUploadCoverConfirm () {
-      if ((this.uploadCoverActiveName = 'second')) {
+      if (this.uploadCoverActiveName === 'second') {
         if (!this.$refs.file.files[0]) {
           return this.$message.warning('请选择文件！')
         }
@@ -71,6 +83,22 @@ export default {
             this.$emit('coverImage', res.data.data.url)
           }
         })
+      } else if (this.uploadCoverActiveName === 'first') {
+        // 通过ref来访问子组件中的数据   父访问子
+        const selectedIndex = this.$refs.materialListRef.selectedIndex
+        if (selectedIndex < 0) return this.$message.warning('请您选择图片！')
+        // 关闭对话框
+        this.uploadcoverDialogVisible = false
+        // 展示选中的图片
+        this.$refs.publishImg.src = this.$refs.materialListRef.imagesData[
+          selectedIndex
+        ].url
+        this.isTextShow = false
+        // 修改父组件数据
+        this.$emit(
+          'coverImage',
+          this.$refs.materialListRef.imagesData[selectedIndex].url
+        )
       }
     }
   }

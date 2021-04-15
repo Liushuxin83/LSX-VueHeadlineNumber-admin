@@ -20,3 +20,11 @@ export function updatedUserPhoto (data) {
     data
   })
 }
+// 编辑用户信息
+export function editUserInfo (data) {
+  return request({
+    method: 'PATCH',
+    url: '/mp/v1_0/user/profile',
+    data
+  })
+}

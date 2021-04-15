@@ -31,7 +31,7 @@
               <el-input v-model="personalSettingsForm.email"></el-input>
             </el-form-item>
           </el-form>
-          <el-button type="primary">保存</el-button>
+          <el-button type="primary" @click="onPreserve">保存</el-button>
         </el-col>
         <el-col :span="14">
           <label for="file">
@@ -78,7 +78,7 @@
   </div>
 </template>
 <script>
-import { getUserInfo, updatedUserPhoto } from '../../api/user'
+import { getUserInfo, updatedUserPhoto, editUserInfo } from '../../api/user'
 // 导入 裁剪插件
 import 'cropperjs/dist/cropper.css'
 import Cropper from 'cropperjs'
@@ -185,6 +185,16 @@ export default {
             bus.$emit('updateUserPhoto', this.userPhoto)
           }
         })
+      })
+    },
+    // 点击保存
+    onPreserve () {
+      editUserInfo(this.personalSettingsForm).then(res => {
+        console.log(res)
+        if (res.status === 201) {
+          this.$message.success('修改用户信息成功！')
+          bus.$emit('updateUserName', res.data.data.name)
+        }
       })
     }
   }
