@@ -13,6 +13,7 @@ const MaterilaManage = () =>
   import('../views/materialManage/MaterialManage.vue')
 const PersonalSettings = () =>
   import('../views/personalSettings/PersonalSettings.vue')
+const TodoList = () => import('../views/todoList/TodoList.vue')
 const routes = [
   {
     path: '/login',
@@ -42,6 +43,10 @@ const routes = [
       {
         path: 'personalsettings',
         component: PersonalSettings
+      },
+      {
+        path: 'todolist',
+        component: TodoList
       }
     ]
   }

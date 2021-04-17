@@ -27,9 +27,9 @@
         <i class="iconfont iconfabu"></i>
         <span slot="title">发布文章</span>
       </el-menu-item>
-      <el-menu-item index="3">
+      <el-menu-item index="/home/todolist">
         <i class="iconfont iconpinglun"></i>
-        <span slot="title">评论管理</span>
+        <span slot="title">ToDo-List</span>
       </el-menu-item>
       <el-menu-item index="4">
         <i class="iconfont iconfensi"></i>
